@@ -1,6 +1,7 @@
-import {Alert, AsyncStorage, Image, Pressable, Text, TextInput, View} from 'react-native';
+import {Alert, Image, Pressable, Text, TextInput, View} from 'react-native';
 import tw from "tailwind-react-native-classnames";
 import {useState} from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from "@react-navigation/native";
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
 

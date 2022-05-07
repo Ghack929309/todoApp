@@ -1,34 +1,35 @@
 export const data = [
     {
-        name: 'All',
-        task: [{
-            title: "meeting with organisation",
-            time: 'today 15:00 PM'
-        }, {
-            title: "meeting with interview",
-            time: 'today 15:00 PM'
-        },
-            {
-                title: "meeting with startup",
-                time: 'today 15:00 PM'
-            }
-        ]
+        id: 1,
+        title: 'Meeting with CEO',
+        date: '12/01/2022',
+        time: '12:45 PM',
+        completed: false
     }, {
-        name: 'Completed',
-        task: [
-            {
-                title: "meeting with interview",
-                time: 'today 15:00 PM'
-            }
-        ]
+        id: 2,
+        title: 'Meeting with TeamLead',
+        date: '12/01/2022',
+        time: '12:45 PM',
+        completed: true
     }, {
-        name: 'Not Completed',
-        task: [
-            {
-                title: "meeting with startup",
-                time: 'today 15:00 PM'
-            }
-        ]
+        id: 3,
+        title: 'Meeting with Company',
+        date: '12/01/2022',
+        time: '12:45 PM',
+        completed: false
+    }, {
+        id: 4,
+        title: 'Go to magasine',
+        date: '12/01/2022',
+        time: '12:45 PM',
+        completed: true
+    }, {
+        id: 5,
+        title: 'Start a new Application',
+        date: '12/01/2022',
+        time: '12:45 PM',
+        completed: true
     },
+
 
 ]

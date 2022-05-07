@@ -1,17 +1,24 @@
-import {KeyboardAvoidingView, Pressable, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {KeyboardAvoidingView, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {Icon} from "@rneui/base";
 import tw from "tailwind-react-native-classnames";
 import {useNavigation} from "@react-navigation/native";
 import {Ionicons} from "@expo/vector-icons";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 function NewTask() {
     const navigation = useNavigation()
+    const [input, setInput] = useState('')
     const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
-    const [displayText, setDisplayText] = useState('')
+    const [displayDate, setDisplayDate] = useState(null)
+    const [displayTime, setDisplayTime] = useState(null)
+
+    useEffect(() => {
+        onChange()
+    }, [date]);
+
 
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;
@@ -20,7 +27,8 @@ function NewTask() {
         let tempDate = new Date(currentDate)
         let formatDate = `${tempDate.getDate()}/${tempDate.getMonth() + 1}/${tempDate.getFullYear()}`
         let formatTime = `${tempDate.getHours()}:${tempDate.getMinutes()} ${tempDate.getHours() >= 12 ? 'PM' : 'AM'}`
-        setDisplayText(formatDate + '\n' + formatTime)
+        setDisplayDate(formatDate)
+        setDisplayTime(formatTime)
     };
 
     const showMode = (currentMode) => {
@@ -35,6 +43,11 @@ function NewTask() {
     const showTimepicker = () => {
         showMode('time');
     };
+    const storeTask = async () => {
+        console.log(input)
+        console.log(displayDate)
+        console.log(displayTime)
+    }
     return (
         <View>
             <View style={tw`bg-blue-400 pt-12 flex-row px-3 pb-8 items-center`}>
@@ -44,14 +57,16 @@ function NewTask() {
                 <Text style={tw`text-2xl text-white font-semibold tracking-wide`}>Add task</Text>
 
             </View>
-            <KeyboardAvoidingView
-                behavior='height'
-                style={tw`justify-between -mt-4 rounded-3xl py-6 px-3`}>
-                <View style={tw`h-4/5`}>
+            <KeyboardAvoidingView behavior='height'
+                                  style={tw`justify-between -mt-4 rounded-3xl py-6 px-3  `}>
+
+                <View style={tw`h-5/6 relative`}>
                     <TextInput style={tw`text-2xl text-gray-600 h-16 w-full`}
-                               placeholder='What would you like to add here?'/>
+                               value={input}
+                               placeholder='What would you like to add here?'
+                               onChangeText={(text) => setInput(text)}
+                    />
                     <View>
-                        <Text>{displayText}</Text>
                         {show && (
                             <DateTimePicker
                                 testID="dateTimePicker"
@@ -63,24 +78,29 @@ function NewTask() {
                             />
                         )}
                     </View>
-
                 </View>
 
-
-                <View style={tw`flex-row  justify-between -mb-6 `}>
-
+                <View style={tw`flex-row  justify-between inset-x-0  absolute bottom-0 px-4`}>
                     <View style={tw`flex-row`}>
-                        <TouchableOpacity onPress={showDatepicker} style={tw`mr-5 bg-blue-400 rounded-full p-3`}>
-                            <Icon name='calendar' size={35} color='white' type='antdesign'/>
+                        <TouchableOpacity onPress={showDatepicker} style={tw`items-center mr-10 `}>
+                            <Text style={tw`text-lg tracking-wide font-normal text-gray-600 mb-2`}>{displayDate}</Text>
+                            <Icon style={tw` bg-blue-400 rounded-full p-3`} name='calendar' size={35}
+                                  color='white' type='antdesign'/>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={showTimepicker} style={tw` bg-blue-400 rounded-full p-3`}>
-                            <Ionicons name="alarm-outline" size={35} color="white"/>
+                        <TouchableOpacity onPress={showTimepicker} style={tw`items-center`}>
+                            <Text style={tw`text-lg tracking-wide font-normal text-gray-600 mb-2`}>{displayTime}</Text>
+                            <View style={tw` bg-blue-400 rounded-full h-16 w-16 items-center justify-center`}>
+                                <Ionicons name="alarm-outline" size={35} color="white"/>
+                            </View>
                         </TouchableOpacity>
                     </View>
-                    <Pressable
-                        style={tw`flex-row items-center bg-blue-400 px-4 py-3 rounded-full`}>
-                        <Text style={tw`text-lg tracking-wide font-semibold text-white  `}>Add task</Text>
-                    </Pressable>
+                    <View style={tw`justify-end`}>
+                        <TouchableOpacity
+                            onPress={storeTask}
+                            style={tw`flex-row items-center bg-blue-400 px-4 py-3 rounded-full`}>
+                            <Text style={tw`text-lg tracking-wide font-semibold text-white  `}>Add task</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </KeyboardAvoidingView>
 

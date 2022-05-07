@@ -1,5 +1,6 @@
-import {AsyncStorage, SafeAreaView, Text, View} from 'react-native';
+import {SafeAreaView, Text, View} from 'react-native';
 import tw from "tailwind-react-native-classnames";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Icon} from "@rneui/base";
 import {useNavigation} from "@react-navigation/native";
 import {useEffect, useState} from "react";
