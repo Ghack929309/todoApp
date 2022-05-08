@@ -67,16 +67,15 @@ function NewTask() {
     const editStore = async () => {
         try {
             if (input !== '') {
-                setTask(prev => {
-                    const value = prev.find(item => {
-                        if (item.id === route.params.id) {
-                            item.title = input
-                            item.date = displayDate
-                            item.time = displayTime
-                        }
-                        return [...prev, value]
-                    })
+                const mock = [...task]
+                mock.find(item => {
+                    if (item.id === route.params.id) {
+                        item.title = input
+                        item.date = displayDate
+                        item.time = displayTime
+                    }
                 })
+                setTask(mock)
                 console.log(task)
                 navigation.navigate('ListTask')
             }

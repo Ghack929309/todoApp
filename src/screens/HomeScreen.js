@@ -1,4 +1,4 @@
-import {Alert, Image, Pressable, Text, TextInput, View} from 'react-native';
+import {Alert, Image, Keyboard, Pressable, Text, TextInput, View} from 'react-native';
 import tw from "tailwind-react-native-classnames";
 import {useState} from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -14,6 +14,7 @@ function HomeScreen() {
         try {
             await AsyncStorage.setItem('userName', input)
             if (input !== '') {
+                Keyboard.dismiss()
                 navigation.navigate('ListTask', {name: input})
             } else {
                 Alert.alert('warning', 'write your name please')

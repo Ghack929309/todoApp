@@ -3,9 +3,11 @@ import tw from "tailwind-react-native-classnames";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Icon} from "@rneui/base";
 import {useNavigation} from "@react-navigation/native";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
+import {TaskContext} from "../utils/TodoContext";
 
 function HeaderTask() {
+    const {task} = useContext(TaskContext);
     const navigation = useNavigation()
     const [name, setName] = useState()
     useEffect(() => {
@@ -39,7 +41,8 @@ function HeaderTask() {
                     <Text style={tw`text-2xl tracking-wide font-semibold`}>
                         Hey, {name}
                     </Text>
-                    <Text style={tw`mt-2 text-gray-500`}>You have <Text style={tw`text-blue-900`}>7 task</Text> to
+                    <Text style={tw`mt-2 text-gray-500`}>You have <Text
+                        style={tw`text-blue-900`}>{task.length} task</Text> to
                         complete</Text>
 
                 </View>

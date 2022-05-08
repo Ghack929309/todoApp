@@ -1,4 +1,4 @@
-import {KeyboardAvoidingView, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {Keyboard, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {Icon} from "@rneui/base";
 import tw from "tailwind-react-native-classnames";
 import {useNavigation} from "@react-navigation/native";
@@ -42,10 +42,12 @@ function NewTask() {
     };
 
     const showDatepicker = () => {
+        Keyboard.dismiss()
         showMode('date');
     };
 
     const showTimepicker = () => {
+        Keyboard.dismiss()
         showMode('time');
     };
     const storeTask = async () => {
