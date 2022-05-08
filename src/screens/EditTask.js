@@ -1,7 +1,7 @@
 import {KeyboardAvoidingView, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {Icon} from "@rneui/base";
 import tw from "tailwind-react-native-classnames";
-import {useNavigation} from "@react-navigation/native";
+import {useNavigation, useRoute} from "@react-navigation/native";
 import {Ionicons} from "@expo/vector-icons";
 import {useContext, useEffect, useState} from "react";
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -11,18 +11,34 @@ import {TaskContext} from "../utils/TodoContext";
 
 function NewTask() {
     const navigation = useNavigation()
-    const [input, setInput] = useState('')
+    const route = useRoute()
+    const [input, setInput] = useState()
     const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
     const [displayDate, setDisplayDate] = useState(null)
     const [displayTime, setDisplayTime] = useState(null)
-    const {setTask, task} = useContext(TaskContext)
-
+    const {task, setTask} = useContext(TaskContext)
 
     useEffect(() => {
-        onChange()
-    }, [date]);
+        let id = route.params.id
+        setInput(filterData(id, 'title'))
+        setDisplayDate(filterData(id, 'date'))
+        setDisplayTime(filterData(id, 'time'))
+    }, [])
+
+    function filterData(id, param) {
+        let value = null
+        task.find(task => {
+            if (task.id === id) {
+                param ? value = task[param] : value = task
+            }
+        })
+        return value
+    }
+
+
+    console.log('the filter data', filterData(route.params.id, 'title'))
 
 
     const onChange = (event, selectedDate) => {
@@ -48,17 +64,20 @@ function NewTask() {
     const showTimepicker = () => {
         showMode('time');
     };
-    const storeTask = async () => {
+    const editStore = async () => {
         try {
             if (input !== '') {
-                const data = {
-                    id: uuid.v4(),
-                    title: input,
-                    date: displayDate,
-                    time: displayTime,
-                    completed: false
-                }
-                setTask(prev => [...prev, data])
+                setTask(prev => {
+                    const value = prev.find(item => {
+                        if (item.id === route.params.id) {
+                            item.title = input
+                            item.date = displayDate
+                            item.time = displayTime
+                        }
+                        return [...prev, value]
+                    })
+                })
+                console.log(task)
                 navigation.navigate('ListTask')
             }
         } catch (error) {
@@ -116,9 +135,9 @@ function NewTask() {
                     </View>
                     <View style={tw`justify-end`}>
                         <TouchableOpacity
-                            onPress={storeTask}
+                            onPress={editStore}
                             style={tw`flex-row items-center bg-blue-400 px-4 py-3 rounded-full`}>
-                            <Text style={tw`text-lg tracking-wide font-semibold text-white  `}>Add task</Text>
+                            <Text style={tw`text-lg tracking-wide font-semibold text-white  `}>Edit task</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

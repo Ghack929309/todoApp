@@ -22,6 +22,16 @@ function HeaderTask() {
             console.log(error)
         }
     }
+    const clearAll = async () => {
+        try {
+            await AsyncStorage.clear()
+        } catch (e) {
+            // clear error
+            console.log(e)
+        }
+
+        console.log('Done.')
+    }
     return (
         <SafeAreaView>
             <View style={tw`flex-row justify-between items-center`}>
@@ -33,7 +43,7 @@ function HeaderTask() {
                         complete</Text>
 
                 </View>
-                <Icon style={tw`w-10 h-10 `} color='blue' name='user' type='antdesign'/>
+                <Icon size={30} onPress={clearAll} color='blue' name='user' type='antdesign'/>
             </View>
         </SafeAreaView>
     );

@@ -1,39 +1,41 @@
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import tw from "tailwind-react-native-classnames";
 import {Icon} from "@rneui/base";
-import {useEffect, useState} from "react";
+import {useNavigation} from "@react-navigation/native";
 
 function DataLayout({term, data}) {
-    const [completed, setCompleted] = useState()
-    const [unCompleted, setUnCompleted] = useState()
-
-
-    useEffect(() => {
-        setCompleted(data.filter(item => item.completed === true));
-        setUnCompleted(data.filter(item => item.completed === false));
-    }, [term]);
+    const navigation = useNavigation()
+    const completed = data?.filter(item => item?.completed === true);
+    const unCompleted = data?.filter(item => item?.completed === false);
 
     const filterData = term === 'Completed' ? completed : unCompleted;
     return (
+
         <FlatList data={term === 'All' ? data : filterData}
                   keyExtractor={(item) => item.id}
                   showsVerticalScrollIndicator={false}
                   renderItem={({item}) => (
                       <TouchableOpacity style={[tw`bg-white rounded-xl flex-row
-                          justify-between items-center py-3 px-2 mb-4`, styles.container]}>
+                          justify-between items-center py-3 px-2 mb-4`, styles.container]}
+                                        onPress={() => navigation.navigate('EditTask', {id: item.id})}
+                      >
                           <View>
                               <Text
                                   style={tw`text-blue-900 font-semibold text-lg tracking-tight`}>{item?.title}</Text>
-                              <Text
-                                  style={tw`text-gray-600 `}>{item?.time}
-                              </Text>
+                              <View style={tw``}>
+                                  <Text
+                                      style={tw`text-gray-600 `}>{item?.date}
+                                  </Text>
+                                  <Text
+                                      style={tw`text-gray-600 `}>{item?.time}
+                                  </Text>
+                              </View>
+
                           </View>
 
                           <Icon name='reload1' color='blue' type='antdesign'/>
                       </TouchableOpacity>
-
                   )}/>
-
     );
 }
 

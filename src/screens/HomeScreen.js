@@ -32,7 +32,7 @@ function HomeScreen() {
                 <Text style={tw`mt-4 text-base tracking-wider`}>Can you type your name for me?</Text>
 
                 <TextInput
-                    style={tw` mt-8 h-10 text-lg tracking-wide w-full border-b-2 border-blue-300`}
+                    style={tw` mt-8 h-10 text-lg tracking-wide w-full text-black border-b-2 border-blue-300`}
                     onChangeText={(text) => setInput(text)}
                     value={input}
                     placeholder="Your name..."
