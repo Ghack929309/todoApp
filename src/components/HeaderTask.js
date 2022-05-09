@@ -42,11 +42,12 @@ function HeaderTask() {
                         Hey, {name}
                     </Text>
                     <Text style={tw`mt-2 text-gray-500`}>You have <Text
-                        style={tw`text-blue-900`}>{task.length} task</Text> to
+                        style={tw`text-blue-900`}>{task.filter(item => item.completed === false).length} task</Text> to
                         complete</Text>
 
                 </View>
-                <Icon size={30} onPress={clearAll} color='blue' name='user' type='antdesign'/>
+                <Icon size={30} onPress={clearAll} color='blue' name='user'
+                      type='antdesign'/>
             </View>
         </SafeAreaView>
     );

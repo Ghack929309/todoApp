@@ -1,11 +1,16 @@
-import {KeyboardAvoidingView, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {
+    KeyboardAvoidingView,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View
+} from 'react-native';
 import {Icon} from "@rneui/base";
 import tw from "tailwind-react-native-classnames";
 import {useNavigation, useRoute} from "@react-navigation/native";
 import {Ionicons} from "@expo/vector-icons";
 import {useContext, useEffect, useState} from "react";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import uuid from 'react-native-uuid'
 import {TaskContext} from "../utils/TodoContext";
 
 
@@ -27,19 +32,15 @@ function NewTask() {
         setDisplayTime(filterData(id, 'time'))
     }, [])
 
-    function filterData(id, param) {
+    function filterData(key, param) {
         let value = null
         task.find(task => {
-            if (task.id === id) {
+            if (task.key === key) {
                 param ? value = task[param] : value = task
             }
         })
         return value
     }
-
-
-    console.log('the filter data', filterData(route.params.id, 'title'))
-
 
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;
@@ -69,7 +70,7 @@ function NewTask() {
             if (input !== '') {
                 const mock = [...task]
                 mock.find(item => {
-                    if (item.id === route.params.id) {
+                    if (item.key === route.params.id) {
                         item.title = input
                         item.date = displayDate
                         item.time = displayTime
@@ -89,20 +90,25 @@ function NewTask() {
     return (
         <View>
             <View style={tw`bg-blue-400 pt-12 flex-row px-3 pb-8 items-center`}>
-                <TouchableOpacity onPress={() => navigation.navigate('ListTask')}>
-                    <Icon name='close' style={tw`w-6 h-6 mr-8`} color='white' type='antdesign'/>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('ListTask')}>
+                    <Icon name='close' style={tw`w-6 h-6 mr-8`} color='white'
+                          type='antdesign'/>
                 </TouchableOpacity>
-                <Text style={tw`text-2xl text-white font-semibold tracking-wide`}>Add task</Text>
+                <Text
+                    style={tw`text-2xl text-white font-semibold tracking-wide`}>Edit
+                    task</Text>
 
             </View>
             <KeyboardAvoidingView behavior='height'
                                   style={tw`justify-between -mt-4 rounded-3xl py-6 px-3  `}>
 
                 <View style={tw`h-5/6`}>
-                    <TextInput style={tw`text-2xl text-gray-600 h-16 w-full`}
-                               value={input}
-                               placeholder='What would you like to add here?'
-                               onChangeText={(text) => setInput(text)}
+                    <TextInput
+                        style={[tw`text-2xl text-gray-600 w-full`, {paddingVertical: 30}]}
+                        value={input}
+                        placeholder='What would you like to add here?'
+                        onChangeText={(text) => setInput(text)}
                     />
                     <View>
                         {show && (
@@ -118,17 +124,25 @@ function NewTask() {
                     </View>
                 </View>
 
-                <View style={tw`flex-row  justify-between inset-x-0  absolute bottom-0 px-4`}>
+                <View
+                    style={tw`flex-row  justify-between inset-x-0  absolute bottom-0 px-4`}>
                     <View style={tw`flex-row`}>
-                        <TouchableOpacity onPress={showDatepicker} style={tw`items-center mr-10 `}>
-                            <Text style={tw`text-lg tracking-wide font-normal text-gray-600 mb-2`}>{displayDate}</Text>
-                            <Icon style={tw` bg-blue-400 rounded-full p-3`} name='calendar' size={35}
+                        <TouchableOpacity onPress={showDatepicker}
+                                          style={tw`items-center mr-10 `}>
+                            <Text
+                                style={tw`text-lg tracking-wide font-normal text-gray-600 mb-2`}>{displayDate}</Text>
+                            <Icon style={tw` bg-blue-400 rounded-full p-3`}
+                                  name='calendar' size={35}
                                   color='white' type='antdesign'/>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={showTimepicker} style={tw`items-center`}>
-                            <Text style={tw`text-lg tracking-wide font-normal text-gray-600 mb-2`}>{displayTime}</Text>
-                            <View style={tw` bg-blue-400 rounded-full h-16 w-16 items-center justify-center`}>
-                                <Ionicons name="alarm-outline" size={35} color="white"/>
+                        <TouchableOpacity onPress={showTimepicker}
+                                          style={tw`items-center`}>
+                            <Text
+                                style={tw`text-lg tracking-wide font-normal text-gray-600 mb-2`}>{displayTime}</Text>
+                            <View
+                                style={tw` bg-blue-400 rounded-full h-16 w-16 items-center justify-center`}>
+                                <Ionicons name="alarm-outline" size={35}
+                                          color="white"/>
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -136,7 +150,9 @@ function NewTask() {
                         <TouchableOpacity
                             onPress={editStore}
                             style={tw`flex-row items-center bg-blue-400 px-4 py-3 rounded-full`}>
-                            <Text style={tw`text-lg tracking-wide font-semibold text-white  `}>Edit task</Text>
+                            <Text
+                                style={tw`text-lg tracking-wide font-semibold text-white  `}>Edit
+                                task</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
